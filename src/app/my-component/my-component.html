@@ -1,0 +1,11 @@
+<div>
+    <input type="text" [(ngModel)]="id">
+    <button (click)="chercher_pokemon()">Chercher Pokemon de id :  {{id}}</button>
+    <select [ngModel]="selectedPokemon">
+        <option *ngFor = "let p in pokemons" [value]="p">
+            {{p}}
+        </option>
+    </select>
+    <p>{{resultat}}</p>
+</div>
+
