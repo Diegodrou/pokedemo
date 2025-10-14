@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Pokemon } from '../pokemon';
 import { PokeAPI } from '../poke-api';
+import { ChercheAffichageBind } from '../cherche-affichage-bind';
 
 @Component({
   selector: 'app-my-component',
@@ -15,10 +16,10 @@ export class MyComponent implements OnInit {
   pokemons:Pokemon[] = [new Pokemon(0,"Pikachu"),new Pokemon(1,"Squirtle"),new Pokemon(2,"Charizard"),new Pokemon(3,"Geodude")];
   selectedPokemon:Pokemon | null = null;
 
-  constructor(private pokeAPI:PokeAPI){
+  constructor(private pokeAPI:PokeAPI, private shared: ChercheAffichageBind){
   //   this.pokeAPI.getPokemonList(300).subscribe({
-  //   next: data => console.log('✅ API working:', data),
-  //   error: err => console.error('❌ API error:', err)
+  //   next: data => console.log('API working:', data),
+  //   error: err => console.error('API error:', err)
   // });
   }
 
@@ -27,38 +28,36 @@ export class MyComponent implements OnInit {
   }
 
   loadPokemonList() {
-    this.pokeAPI.getPokemonList(100).subscribe({
-      next: (data) => {
-        console.log('Pokémon list:', data);
-        this.pokemons = data.results.map(
-          (p: any, index: number) => new Pokemon(index, p.name)
-        );
-      },
-      error: (err) => console.error('Error fetching Pokémon:', err)
-    });
-  }
+  this.pokeAPI.getPokemonList(100).subscribe({
+    next: (data) => {
+      console.log('Pokémon list:', data);
+      this.pokemons = data.results.map((p: any) => {
+        const id = +p.url.split('/')[6];
+        return new Pokemon(id, p.name);
+      });
+    },
+    error: (err) => console.error('Error fetching Pokémon:', err)
+  });
+}
+
 
   chercher_pokemon_id(){
-    var str:string = "Info sur pokemon : ";
-    this.selectedPokemon = this.pokemons.filter(e=> e.id === +this.id)?.[0]
-    this.resultat = str +"\n"+ "Id:"+this.id +"\n"+"Nom: "+this.selectedPokemon.nom;
+    const str = "Info sur pokemon : ";
+    this.selectedPokemon = this.pokemons.find(e => e.id === +this.id) ?? null;
+    if (this.selectedPokemon) {
+      this.resultat = `${str}\nId:${this.id}\nNom: ${this.selectedPokemon.nom}`;
+      this.shared.setPokemonId(this.id); //mise à jour du service
+    }
   }
 
   
   chercher_pokemon_nom(){
-    var str:string = "Info sur pokemon : ";
-    this.selectedPokemon = this.pokemons.filter(e=> e.nom === this.pok_nom)?.[0]
-    this.resultat = str +"\n"+ "Id:"+this.selectedPokemon.id +"\n"+"Nom: "+this.selectedPokemon.nom;
+    const str = "Info sur pokemon : ";
+    this.selectedPokemon = this.pokemons.find(e => e.nom === this.pok_nom) ?? null;
+    if (this.selectedPokemon) {
+      this.resultat = `${str}\nId:${this.selectedPokemon.id}\nNom: ${this.selectedPokemon.nom}`;
+      this.shared.setPokemonId(this.selectedPokemon.id.toString()); //mise à jour du service
+    }
   }
-
-
-  // onPokemonSelected(pokemon: Pokemon) {
-  //   if (pokemon) {
-  //     this.pok_nom = pokemon.nom;
-  //     this.selectedPokemon = pokemon;
-  //     this.chercher_pokemon_nom();
-  //   }
-  // }
-
 
 }

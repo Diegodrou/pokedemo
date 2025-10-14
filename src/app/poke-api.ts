@@ -16,5 +16,8 @@ export class PokeAPI {
     return this.http.get(url);
   }
 
-
+  getPokemonDetails(idOrName: string): Observable<any> {
+    const url = `${this.baseURL}/pokemon/${idOrName}`;
+    return this.http.get(url);
+}
 }

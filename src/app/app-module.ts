@@ -9,6 +9,8 @@ import { FilterPokemonPipePipe } from './filter-pokemon--pipe-pipe';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {  HttpClientModule } from '@angular/common/http';
 import { AfficherPokemon } from './afficher-pokemon/afficher-pokemon';
+import { PokeAPI } from './poke-api';
+import { ChercheAffichageBind } from './cherche-affichage-bind';
 
 
 @NgModule({
@@ -26,7 +28,7 @@ import { AfficherPokemon } from './afficher-pokemon/afficher-pokemon';
     HttpClientModule
   ],
   providers: [
-    provideBrowserGlobalErrorListeners()
+    provideBrowserGlobalErrorListeners(),PokeAPI, ChercheAffichageBind
   ],
   bootstrap: [App]
 })
