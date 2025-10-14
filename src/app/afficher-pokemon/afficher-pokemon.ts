@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChercheAffichageBind } from '../cherche-affichage-bind';
 import { PokeAPI } from '../poke-api';
 
@@ -8,7 +8,7 @@ import { PokeAPI } from '../poke-api';
   templateUrl: './afficher-pokemon.html',
   styleUrl: './afficher-pokemon.css'
 })
-export class AfficherPokemon {
+export class AfficherPokemon implements OnInit {
   poke_nom:string = "";
   poke_id:string = "";
   poke_stats:string = "";
