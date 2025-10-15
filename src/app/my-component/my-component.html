@@ -8,8 +8,8 @@
     <br>
     <br>
     <input type="text" [(ngModel)]="pok_nom" readonly>
-    <select [(ngModel)]="selectedPokemon" >
-        <option *ngFor = "let p of pokemons | filterPokemonPipe:'nom':pok_nom" [value]="p">
+    <select [(ngModel)]="selectedPokemon" (ngModelChange)="onPokemonSelected($event)" >
+        <option *ngFor = "let p of pokemons | filterPokemonPipe:'nom':pok_nom" [ngValue]="p">
             {{p.id + "-" + p.nom}}
         </option>
     </select>

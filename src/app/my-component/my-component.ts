@@ -60,4 +60,13 @@ export class MyComponent implements OnInit {
     }
   }
 
+  onPokemonSelected(pokemon: Pokemon) {
+    if (pokemon) {
+      this.id = pokemon.id.toString();
+      this.pok_nom = pokemon.nom;
+      this.selectedPokemon = pokemon;
+    }
+}
+
+
 }
